@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.android.example.github.api.PlpSearchResponse
+import com.android.example.github.db.GithubDb
 import com.android.example.github.repository.PlpRepository
 import com.android.example.github.testing.OpenForTesting
 import com.android.example.github.util.AbsentLiveData
@@ -37,6 +38,7 @@ class SearchViewModel @Inject constructor(plpRepository: PlpRepository) : ViewMo
     private val _query = MutableLiveData<String>()
     private val nextPageHandler = NextPageHandler(plpRepository)
 
+
     val query : LiveData<String> = _query
 
     val results: LiveData<Resource<PlpSearchResponse>> = _query.switchMap { search ->
@@ -46,6 +48,9 @@ class SearchViewModel @Inject constructor(plpRepository: PlpRepository) : ViewMo
             plpRepository.search(search)
         }
     }
+
+    val listSuggest: LiveData<PlpSearchResult?> = plpRepository.getAllSugges()
+
 
     val loadMoreStatus: LiveData<LoadMoreState>
         get() = nextPageHandler.loadMoreState

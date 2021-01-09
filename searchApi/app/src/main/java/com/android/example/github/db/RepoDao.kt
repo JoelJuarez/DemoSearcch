@@ -25,6 +25,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.android.example.github.testing.OpenForTesting
 import com.android.example.github.vo.PlpSearchResult
+import com.android.example.github.vo.Resource
 
 /**
  * Interface for database access on Repo related operations.
@@ -85,4 +86,7 @@ abstract class RepoDao {
 
     @Query("SELECT * FROM PlpSearchResult WHERE `query` = :query")
     abstract fun findSearchResult(query: String): PlpSearchResult?
+
+    @Query("SELECT * FROM PlpSearchResult")
+    abstract fun getAllSearchResult(): LiveData<PlpSearchResult?>
 }
