@@ -73,7 +73,7 @@ class PlpRepository @Inject constructor(
                 val plpSearchResult = PlpSearchResult(
                     query = search,
                     totalCount = item.plpResults.plpState.totalNumRecs,
-                    next = item.nextPage
+                    next = item.plpResults.plpState.firstRecNum
                 )
                 db.runInTransaction {
                     //repoDao.insertRepos(item.plpResults.records)

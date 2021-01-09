@@ -48,9 +48,9 @@ class FetchNextSearchPageTask constructor(
             _liveData.postValue(Resource.success(false))
             return
         }
-        //val newValue = try {
 
-          /*  val response = liverpoolService.searchPlp(force,search, nextPage,itemsPerPage).execute()
+       /* val newValue = try {
+            val response = liverpoolService.searchPlp("true",search,nextPage + 1,10)
             when (val apiResponse = ApiResponse.create(response)) {
                 is ApiSuccessResponse -> {
                     // we merge all repo ids into 1 list so that it is easier to fetch the
