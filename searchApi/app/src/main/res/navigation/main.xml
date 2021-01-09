@@ -20,10 +20,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.android.example.github.ui.search.SearchFragment"
-        android:label="SearchFragment" >
-
-    </fragment>
-
+        android:name="com.android.example.liverpool.ui.search.SearchFragment"
+        android:label="SearchFragment" />
 
 </navigation>

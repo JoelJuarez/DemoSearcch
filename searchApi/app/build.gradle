@@ -127,6 +127,9 @@ dependencies {
     androidTestImplementation deps.arch_core.testing
     androidTestImplementation deps.mockito.core
     androidTestImplementation deps.mockito.android
+
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }
 
 // we need all open to run tests which we enable only for debug builds.
