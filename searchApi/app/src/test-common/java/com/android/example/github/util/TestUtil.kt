@@ -17,7 +17,6 @@
 package com.android.example.github.util
 
 import com.android.example.github.vo.Contributor
-import com.android.example.github.vo.Repo
 import com.android.example.github.vo.User
 
 object TestUtil {
@@ -31,7 +30,7 @@ object TestUtil {
         blog = null
     )
 
-    fun createRepos(count: Int, owner: String, name: String, description: String): List<Repo> {
+   /* fun createRepos(count: Int, owner: String, name: String, description: String): List<Repo> {
         return (0 until count).map {
             createRepo(
                 owner = owner + it,
@@ -46,9 +45,9 @@ object TestUtil {
         owner = owner,
         name = name,
         description = description
-    )
+    )*/
 
-    fun createRepo(id: Int, owner: String, name: String, description: String) = Repo(
+    /*fun createRepo(id: Int, owner: String, name: String, description: String) = Repo(
         id = id,
         name = name,
         fullName = "$owner/$name",
@@ -64,5 +63,5 @@ object TestUtil {
     ).apply {
         repoName = repo.name
         repoOwner = repo.owner.login
-    }
+    }*/
 }

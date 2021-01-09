@@ -20,17 +20,16 @@ package com.android.example.github.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.android.example.github.vo.Contributor
-import com.android.example.github.vo.Repo
 import com.android.example.github.vo.PlpSearchResult
 import com.android.example.github.vo.User
 
 /**
  * Main database description.
  */
+
 @Database(
     entities = [
         User::class,
-        Repo::class,
         Contributor::class,
         PlpSearchResult::class],
     version = 3,

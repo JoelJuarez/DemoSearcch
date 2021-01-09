@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @RunWith(JUnit4::class)
 class GithubServiceTest {
+    /*
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -144,5 +145,5 @@ class GithubServiceTest {
             mockResponse
                 .setBody(source.readString(Charsets.UTF_8))
         )
-    }
+    }*/
 }

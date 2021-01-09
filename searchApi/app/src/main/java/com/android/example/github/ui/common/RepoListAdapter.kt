@@ -25,7 +25,6 @@ import com.android.example.github.AppExecutors
 import com.android.example.github.R
 import com.android.example.github.api.PlpRecord
 import com.android.example.github.databinding.RepoItemBinding
-import com.android.example.github.vo.Repo
 
 /**
  * A RecyclerView adapter for [Repo] class.

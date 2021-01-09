@@ -26,7 +26,6 @@ import com.android.example.github.repository.PlpRepository
 import com.android.example.github.testing.OpenForTesting
 import com.android.example.github.util.AbsentLiveData
 import com.android.example.github.vo.PlpSearchResult
-import com.android.example.github.vo.Repo
 import com.android.example.github.vo.Resource
 import com.android.example.github.vo.Status
 import java.util.Locale

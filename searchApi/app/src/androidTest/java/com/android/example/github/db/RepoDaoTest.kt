@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RepoDaoTest : DbTest() {
-
+/*
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -105,5 +105,5 @@ class RepoDaoTest : DbTest() {
         db.repoDao().insert(update)
         data = db.repoDao().loadContributors("foo", "bar")
         assertThat(data.getOrAwaitValue().size, `is`(1))
-    }
+    }*/
 }

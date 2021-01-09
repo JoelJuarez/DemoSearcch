@@ -22,21 +22,8 @@
         android:id="@+id/searchFragment"
         android:name="com.android.example.github.ui.search.SearchFragment"
         android:label="SearchFragment" >
-        <action
-            android:id="@+id/showRepo"
-            app:destination="@id/repoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/repoFragment"
-        android:name="com.android.example.github.ui.repo.RepoFragment"
-        android:label="RepoFragment" >
-        <argument
-            android:name="owner"
-            app:argType="string" />
-        <argument
-            android:name="name"
-            app:argType="string" />
 
     </fragment>
+
 
 </navigation>
