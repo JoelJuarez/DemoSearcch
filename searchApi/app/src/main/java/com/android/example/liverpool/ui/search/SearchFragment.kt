@@ -25,13 +25,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.example.liverpool.AppExecutors
@@ -47,6 +49,7 @@ import com.android.example.liverpool.util.autoCleared
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 import javax.inject.Inject
+
 
 class SearchFragment : Fragment(), Injectable {
 
@@ -68,15 +71,15 @@ class SearchFragment : Fragment(), Injectable {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.search_fragment,
-            container,
-            false,
-            dataBindingComponent
+                inflater,
+                R.layout.search_fragment,
+                container,
+                false,
+                dataBindingComponent
         )
 
         return binding.root
@@ -87,9 +90,9 @@ class SearchFragment : Fragment(), Injectable {
         initRecyclerView()
         initRecyclerViewSuggest()
         val rvAdapter = ProductListAdapter(
-            dataBindingComponent = dataBindingComponent,
-            appExecutors = appExecutors,
-            showFullName = true
+                dataBindingComponent = dataBindingComponent,
+                appExecutors = appExecutors,
+                showFullName = true
         ) { repo ->
             /*findNavController().navigate(
                     SearchFragmentDirections.showRepo(repo.owner.login, repo.name)
@@ -106,6 +109,7 @@ class SearchFragment : Fragment(), Injectable {
                 object : TaskListener {
                     override fun onTaskClick(task: String) {
                         Timber.d("Search slected ${task}");
+                        binding.input.setText(task)
                         searchViewModel.setQuery(task)
                     }
                 }
@@ -145,8 +149,15 @@ class SearchFragment : Fragment(), Injectable {
     private fun doSearch(v: View) {
         val query = binding.input.text.toString()
         // Dismiss keyboard
-        dismissKeyboard(v.windowToken)
-        searchViewModel.setQuery(query)
+        if (query.isEmpty()) {
+            binding.sugestionList.isGone = false
+            binding.repoList.isGone  = true
+
+        }else {
+            dismissKeyboard(v.windowToken)
+            searchViewModel.setQuery(query)
+        }
+
     }
 
     private fun initRecyclerView() {
@@ -162,6 +173,8 @@ class SearchFragment : Fragment(), Injectable {
         })
         binding.searchResult = searchViewModel.results
         searchViewModel.results.observe(viewLifecycleOwner, Observer { result ->
+            binding.sugestionList.isGone = true
+            binding.repoList.isGone = false
             adapter.submitList(result?.data)
         })
 
