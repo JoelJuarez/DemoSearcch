@@ -33,6 +33,7 @@ class SearchViewModel @Inject constructor(plpRepository: PlpRepository) : ViewMo
 
     private val _query = MutableLiveData<String>()
     private val nextPageHandler = NextPageHandler(plpRepository)
+    val deleteItems = DeleteItems(plpRepository)
 
     val query : LiveData<String> = _query
     val listSuggest: LiveData<List<PlpSearchResult>> = plpRepository.getAllSugges()
@@ -68,6 +69,16 @@ class SearchViewModel @Inject constructor(plpRepository: PlpRepository) : ViewMo
     fun refresh() {
         _query.value?.let {
             _query.value = it
+        }
+    }
+
+
+    class DeleteItems(private val repository: PlpRepository) {
+        fun deleteItem(value: String) {
+            repository.deleteItem(value)
+        }
+        fun deleteAllItems() {
+            repository.deleteAllItems()
         }
     }
 

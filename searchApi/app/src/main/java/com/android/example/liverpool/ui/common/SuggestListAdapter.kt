@@ -25,6 +25,7 @@ import com.android.example.liverpool.AppExecutors
 import com.android.example.liverpool.R
 import com.android.example.liverpool.databinding.SugestItemBinding
 import com.android.example.liverpool.vo.PlpSearchResult
+import timber.log.Timber
 
 
 /**
@@ -35,7 +36,8 @@ class SuggestListAdapter (
     appExecutors: AppExecutors,
     private val showFullName: Boolean,
     //private val repoClickCallback: ((PlpSearchResult) -> Unit)?
-    private val taskListener: TaskListener?
+    private val taskListener: TaskListener?,
+    private val deleteListener: TaskListener?
 ) : DataBoundListAdapter<PlpSearchResult, SugestItemBinding>(
     appExecutors = appExecutors,
     diffCallback = object : DiffUtil.ItemCallback<PlpSearchResult>() {
@@ -65,6 +67,15 @@ class SuggestListAdapter (
                 //repoClickCallback?.invoke(it)
             }
         }
+        binding.deleteButton.setOnClickListener{
+            binding.plpSuggest?.let {
+                Timber.d("delete ${it.query}")
+                deleteListener?.onTaskClick(it.query)
+            }
+
+        }
+
+
         return binding
     }
 

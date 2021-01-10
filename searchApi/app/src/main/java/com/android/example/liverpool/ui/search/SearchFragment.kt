@@ -19,6 +19,8 @@ package com.android.example.liverpool.ui.search
 import android.content.Context
 import android.os.Bundle
 import android.os.IBinder
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +49,9 @@ import com.android.example.liverpool.ui.common.SuggestListAdapter
 import com.android.example.liverpool.ui.common.TaskListener
 import com.android.example.liverpool.util.autoCleared
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -112,6 +117,14 @@ class SearchFragment : Fragment(), Injectable {
                         binding.input.setText(task)
                         searchViewModel.setQuery(task)
                     }
+                },
+                object : TaskListener {
+                    override fun onTaskClick(task: String) {
+                        Timber.d("Delete slected ${task}");
+                        GlobalScope.launch(Dispatchers.IO) {
+                         searchViewModel.deleteItems.deleteItem(task)
+                        }
+                    }
                 }
         )
 
@@ -125,6 +138,13 @@ class SearchFragment : Fragment(), Injectable {
                 searchViewModel.refresh()
             }
         }
+        binding.delleteAll.setOnClickListener{
+
+            GlobalScope.launch(Dispatchers.IO) {
+                searchViewModel.deleteItems.deleteAllItems();
+            }
+        }
+
     }
 
     private fun initSearchInputListener() {
@@ -149,12 +169,13 @@ class SearchFragment : Fragment(), Injectable {
     private fun doSearch(v: View) {
         val query = binding.input.text.toString()
         // Dismiss keyboard
+        dismissKeyboard(v.windowToken)
         if (query.isEmpty()) {
             binding.sugestionList.isGone = false
             binding.repoList.isGone  = true
-
-        }else {
-            dismissKeyboard(v.windowToken)
+            binding.delleteAll.isGone = false
+        } else {
+            binding.delleteAll.isGone = true
             searchViewModel.setQuery(query)
         }
 
@@ -196,7 +217,16 @@ class SearchFragment : Fragment(), Injectable {
 
         // binding.suggestResult = searchViewModel.listSuggest
         searchViewModel.listSuggest.observe(viewLifecycleOwner, Observer { result ->
+            if (result.isEmpty()){
+                binding.delleteAll.isGone = true
+            }else {
+                if (binding.input.text.isEmpty()) {
+                    binding.delleteAll.isGone = false
+                }
+            }
+
             suggestAdapter.submitList(result)
+
         })
 
 

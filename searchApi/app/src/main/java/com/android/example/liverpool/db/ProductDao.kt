@@ -62,4 +62,10 @@ abstract class ProductDao {
     @Query("SELECT * FROM PlpSearchResult")
     abstract fun getAllResults(): LiveData<List<PlpSearchResult>>
 
+    @Query("DELETE FROM PlpSearchResult WHERE `query` = :query ")
+    abstract fun deleteItemResult(query: String)
+
+    @Query("DELETE FROM PlpSearchResult ")
+    abstract fun deleteAllItems()
+
 }

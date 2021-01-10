@@ -57,6 +57,14 @@ class PlpRepository @Inject constructor(
         return allSuggest
     }
 
+    fun deleteItem(value: String) {
+        db.productDao().deleteItemResult(value)
+    }
+
+    fun deleteAllItems() {
+        db.productDao().deleteAllItems()
+    }
+
 
     fun searchNextPage(search: String): LiveData<Resource<Boolean>> {
         val fetchNextSearchPageTask = FetchNextSearchPageTask(
