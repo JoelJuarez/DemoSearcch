@@ -35,6 +35,7 @@ class SearchViewModel @Inject constructor(plpRepository: PlpRepository) : ViewMo
     private val nextPageHandler = NextPageHandler(plpRepository)
 
     val query : LiveData<String> = _query
+    val listSuggest: LiveData<List<PlpSearchResult>> = plpRepository.getAllSugges()
 
     val results: LiveData<Resource<List<Product>>> = _query.switchMap { search ->
         if (search.isBlank()) {

@@ -52,6 +52,12 @@ class PlpRepository @Inject constructor(
 
     private val repoListRateLimit = RateLimiter<String>(10, TimeUnit.MINUTES)
 
+    fun getAllSugges() : LiveData<List<PlpSearchResult>> {
+        val allSuggest =  db.productDao().getAllResults()
+        return allSuggest
+    }
+
+
     fun searchNextPage(search: String): LiveData<Resource<Boolean>> {
         val fetchNextSearchPageTask = FetchNextSearchPageTask(
                 force = "true",

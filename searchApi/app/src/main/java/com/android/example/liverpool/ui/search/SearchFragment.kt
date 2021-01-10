@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.example.liverpool.AppExecutors
@@ -40,8 +41,11 @@ import com.android.example.liverpool.databinding.SearchFragmentBinding
 import com.android.example.liverpool.di.Injectable
 import com.android.example.liverpool.ui.common.ProductListAdapter
 import com.android.example.liverpool.ui.common.RetryCallback
+import com.android.example.liverpool.ui.common.SuggestListAdapter
+import com.android.example.liverpool.ui.common.TaskListener
 import com.android.example.liverpool.util.autoCleared
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import javax.inject.Inject
 
 class SearchFragment : Fragment(), Injectable {
@@ -57,6 +61,7 @@ class SearchFragment : Fragment(), Injectable {
     var binding by autoCleared<SearchFragmentBinding>()
 
     var adapter by autoCleared<ProductListAdapter>()
+    var suggestAdapter by autoCleared<SuggestListAdapter>()
 
     val searchViewModel: SearchViewModel by viewModels {
         viewModelFactory
@@ -80,6 +85,7 @@ class SearchFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
         initRecyclerView()
+        initRecyclerViewSuggest()
         val rvAdapter = ProductListAdapter(
             dataBindingComponent = dataBindingComponent,
             appExecutors = appExecutors,
@@ -92,6 +98,21 @@ class SearchFragment : Fragment(), Injectable {
         binding.query = searchViewModel.query
         binding.repoList.adapter = rvAdapter
         adapter = rvAdapter
+
+        val rvSuggestAdapter = SuggestListAdapter(
+                dataBindingComponent = dataBindingComponent,
+                appExecutors = appExecutors,
+                showFullName = true,
+                object : TaskListener {
+                    override fun onTaskClick(task: String) {
+                        Timber.d("Search slected ${task}");
+                        searchViewModel.setQuery(task)
+                    }
+                }
+        )
+
+        binding.sugestionList.adapter = rvSuggestAdapter
+        suggestAdapter = rvSuggestAdapter
 
         initSearchInputListener()
 
@@ -156,6 +177,18 @@ class SearchFragment : Fragment(), Injectable {
             }
         })
     }
+
+    private fun initRecyclerViewSuggest() {
+
+
+        // binding.suggestResult = searchViewModel.listSuggest
+        searchViewModel.listSuggest.observe(viewLifecycleOwner, Observer { result ->
+            suggestAdapter.submitList(result)
+        })
+
+
+    }
+
 
     private fun dismissKeyboard(windowToken: IBinder) {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
