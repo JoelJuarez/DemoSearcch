@@ -114,8 +114,9 @@ class SearchFragment : Fragment(), Injectable {
                 object : TaskListener {
                     override fun onTaskClick(task: String) {
                         Timber.d("Search slected ${task}");
-                        binding.input.setText(task)
-                        searchViewModel.setQuery(task)
+                        binding.delleteAll.isGone = true
+                        binding.input.setText(task);
+                        searchViewModel.setQuery(task);
                     }
                 },
                 object : TaskListener {
@@ -171,6 +172,7 @@ class SearchFragment : Fragment(), Injectable {
         // Dismiss keyboard
         dismissKeyboard(v.windowToken)
         if (query.isEmpty()) {
+            binding.noResultsText.isGone = true
             binding.sugestionList.isGone = false
             binding.repoList.isGone  = true
             binding.delleteAll.isGone = false
